@@ -1,0 +1,17 @@
+﻿.piece-container {
+    display: inline-block;
+    cursor: pointer;
+}
+
+::deep .piece {
+    font-size: 6vh;
+    margin: auto;
+}
+
+::deep .piece-black {
+    text-shadow: 0.1vh 0.1vh #888;
+}
+
+::deep .piece-white {
+    text-shadow: 0.2vh 0.2vh #090909;
+}

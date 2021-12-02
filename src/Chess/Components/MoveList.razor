@@ -1,0 +1,19 @@
+﻿<div>
+    <h1>Moves</h1>
+    <div class="moves">
+        @foreach (var keyValuePair in Moves.OrderBy(m => m.Key))
+        {
+            <MoveComponent Index="@keyValuePair.Key" Move="@keyValuePair.Value" />
+        }
+    </div>
+</div>
+
+@code {
+    private Dictionary<int, PerformedMove> Moves = new Dictionary<int, PerformedMove>();
+
+    public void AddMove(PerformedMove move)
+    {
+        Moves.Add(Moves.Count + 1, move);
+        StateHasChanged();
+    }
+}

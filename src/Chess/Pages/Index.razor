@@ -1,0 +1,31 @@
+﻿@page "/"
+@using System.Diagnostics
+@using System.Linq
+
+<div class="page-container">
+    <ChessBoard PieceMoved="HandlePieceMove" StatusChanged="@StatusChanged" @ref="chessBoard" />
+    <Status @ref="status" />
+    <MoveList @ref="moveList" />
+</div>
+
+
+@code {
+    private ChessBoard chessBoard;
+    private Status status;
+    private MoveList moveList;
+
+    private void HandlePieceMove(PerformedMove move)
+    {
+        moveList.AddMove(move);
+    }
+
+    private void StatusChanged(ChessEngine chessEngine)
+    {
+        status.UpdateStatus(chessEngine);
+    }
+
+    private void StartEnginePlayer()
+    {
+        chessBoard.AutoStartWhite();
+    }
+}

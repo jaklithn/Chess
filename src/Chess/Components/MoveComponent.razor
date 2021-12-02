@@ -1,0 +1,20 @@
+﻿<div class="move">
+    <span>@Index. </span>
+    <PieceIcon Piece="@Move.Piece" />
+    <span>@Move.Start.Name</span>
+    <span class="space"></span>
+    @if (Move.RemovedPiece != null)
+    {
+        <PieceIcon Piece="@Move.RemovedPiece" />
+    }
+    <span>@Move.End.Name</span>
+    @(Move.RemovedPiece != null && Move.RemovedPiece.PieceType == PieceType.King ? "#" : "")
+</div>
+
+@code {
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public PerformedMove Move { get; set; }
+}

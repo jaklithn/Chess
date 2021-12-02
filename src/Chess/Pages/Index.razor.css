@@ -1,0 +1,8 @@
+﻿.page-container {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 4vh;
+    column-gap: 8vh;
+    padding: 3vh;
+}
+

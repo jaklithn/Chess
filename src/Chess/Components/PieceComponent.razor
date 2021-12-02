@@ -1,0 +1,22 @@
+﻿@using System.Diagnostics
+@if (Piece != null)
+{
+    <div class="piece-container" draggable="true" @ondragstart="@FlagMovingPiece">
+        <PieceIcon Piece="@Piece" />
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public PieceItem Piece { get; set; }
+
+    [Parameter]
+    public EventCallback<PieceItem> PieceIsMoving { get; set; }
+
+
+    private async Task FlagMovingPiece()
+    {
+        await PieceIsMoving.InvokeAsync(Piece);
+    }
+}

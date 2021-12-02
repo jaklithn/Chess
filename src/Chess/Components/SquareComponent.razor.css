@@ -1,0 +1,19 @@
+﻿.square {
+    display: grid;
+    place-items: center;
+}
+
+.square-black {
+    background-color: saddlebrown;
+}
+
+.square-white {
+    background-color: burlywood;
+}
+
+.drop-allow {
+    background-color: lightyellow;
+}
+
+.drop-disallow {
+}

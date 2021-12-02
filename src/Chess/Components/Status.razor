@@ -1,0 +1,28 @@
+﻿<div class="status">
+    <h1>Player: <strong class="@currentPlayerClass">@currentPlayer</strong></h1>
+    <div class="time">
+        <div class="white">
+            White time: @whiteTime
+        </div>
+        <div class="black">
+            Black time: @blackTime
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private Color currentPlayer = Color.White;
+    private string whiteTime = "00:00:00";
+    private string blackTime = "00:00:00";
+    private string currentPlayerClass => currentPlayer == Color.White ? "white" : "black";
+
+    public void UpdateStatus(ChessEngine ChessEngine)
+    {
+        currentPlayer = ChessEngine.CurrentPlayer;
+        whiteTime = ChessEngine.WhiteTime.Elapsed.ToString("hh\\:mm\\:ss");
+        blackTime = ChessEngine.BlackTime.Elapsed.ToString("hh\\:mm\\:ss");
+        StateHasChanged();
+    }
+
+}

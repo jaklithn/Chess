@@ -1,0 +1,76 @@
+﻿<div class="chess-board">
+
+    <div></div>
+    @foreach (var col in EnumExtensions.ToList<Column>())
+    {
+        <div class="center">@col</div>
+    }
+    <div></div>
+
+    @foreach (var row in EnumExtensions.ToList<Row>().OrderByDescending(r => r))
+    {
+        <div class="center">@row.ToString().Substring(3)</div>
+        @foreach (var col in EnumExtensions.ToList<Column>())
+        {
+            var square = ChessEngine.GetSquare(col, row);
+            <SquareComponent ChessBoard="@this" Square="@square" PieceIsMoving="@HandlePieceIsMoving" PieceDropped="@HandlePieceDropped" />
+        }
+        <div class="center">@row.ToString().Substring(3)</div>
+    }
+
+    <div></div>
+    @foreach (var col in EnumExtensions.ToList<Column>())
+    {
+        <div class="center">@col</div>
+    }
+    <div></div>
+
+</div>
+
+
+@code {
+
+    [Parameter]
+    public PieceItem MovingPiece { get; set; }
+
+    [Parameter]
+    public EventCallback<PerformedMove> PieceMoved { get; set; }
+
+    [Parameter]
+    public EventCallback<ChessEngine> StatusChanged { get; set; }
+
+    public void AutoStartWhite()
+    {
+        var move = ChessEngine.GenerateMove(Color.White);
+        if (move != null)
+        {
+            PieceMoved.InvokeAsync(move);
+            StateHasChanged();
+        }
+        MovingPiece = null;
+    }
+
+    private ChessEngine ChessEngine = new ChessEngine();
+    private Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(async (object stateInfo) =>
+        {
+            await StatusChanged.InvokeAsync(ChessEngine);
+            StateHasChanged();
+        }, new AutoResetEvent(false), 1000, 1000);
+    }
+
+    private void HandlePieceIsMoving(PieceItem piece)
+    {
+        MovingPiece = piece;
+    }
+
+    private async Task HandlePieceDropped(PieceDrop pieceDrop)
+    {
+        var move = ChessEngine.Move(pieceDrop.Piece, pieceDrop.End);
+        await PieceMoved.InvokeAsync(move);
+        MovingPiece = null;
+    }
+}

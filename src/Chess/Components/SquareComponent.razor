@@ -1,0 +1,50 @@
+﻿<div class="square @ColorClass @DropClass" ondragover="event.preventDefault();" @ondragenter="@HandleDragEnter" @ondragleave="@HandleDragLeave" @ondrop="@HandleDrop">
+    <PieceComponent Piece="@Square.Piece" PieceIsMoving="@HandlePieceIsMoving" />
+</div>
+
+@code {
+
+    [Parameter]
+    public ChessBoard ChessBoard { get; set; }
+
+    [Parameter]
+    public SquareItem Square { get; set; }
+
+    [Parameter]
+    public EventCallback<PieceItem> PieceIsMoving { get; set; }
+
+    [Parameter]
+    public EventCallback<PieceDrop> PieceDropped { get; set; }
+
+
+    private string ColorClass => Square.Color == Color.Black ? "square-black" : "square-white";
+    private string DropClass = string.Empty;
+    private bool AllowDrop => ChessBoard != null && ChessBoard.MovingPiece != null && ChessBoard.MovingPiece.CanMoveTo(Square);
+
+
+    private void HandleDragEnter()
+    {
+        DropClass = AllowDrop ? "drop-allow" : "drop-disallow";
+    }
+
+    private void HandleDragLeave()
+    {
+        DropClass = string.Empty;
+    }
+
+    private async Task HandleDrop()
+    {
+        if (AllowDrop)
+        {
+            var pieceDrop = new PieceDrop(ChessBoard.MovingPiece, Square);
+            await PieceDropped.InvokeAsync(pieceDrop);
+        }
+
+        DropClass = string.Empty;
+    }
+
+    private async Task HandlePieceIsMoving(PieceItem piece)
+    {
+        await PieceIsMoving.InvokeAsync(piece);
+    }
+}

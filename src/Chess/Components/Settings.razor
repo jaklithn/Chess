@@ -1,0 +1,43 @@
+﻿@using Chess.Extensions
+
+<div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="playMode" id="playModeDual" value="@PlayMode.Dual" checked @onchange="OnPlayModeChange">
+        <label class="form-check-label" for="playModeDual">Dual Player</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="playMode" id="playModeSingleWhite" value="@PlayMode.SingleWhite" @onchange="OnPlayModeChange">
+        <label class="form-check-label" for="playModeSingleWhite">Single player White</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="playMode" id="playModeSingleBlack" value="@PlayMode.SingleBlack" @onchange="OnPlayModeChange">
+        <label class="form-check-label" for="playModeSingleBlack">Single player Black</label>
+        @if (PlayMode == PlayMode.SingleBlack)
+        {
+            <button type="button" class="btn btn-sm btn-primary" @onclick="OnStart">Start</button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public PlayMode PlayMode { get; set; } = PlayMode.Dual;
+
+    [Parameter]
+    public EventCallback<PlayMode> PlayModeChanged { get; set; }
+
+    [Parameter]
+    public EventCallback Start { get; set; }
+
+
+    private void OnStart()
+    {
+        Start.InvokeAsync();
+    }
+
+    private void OnPlayModeChange(ChangeEventArgs e)
+    {
+        PlayMode = e.Value.ToString().ToEnum<PlayMode>();
+        PlayModeChanged.InvokeAsync(PlayMode);
+    }
+}

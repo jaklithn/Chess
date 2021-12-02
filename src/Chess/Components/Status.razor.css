@@ -1,0 +1,20 @@
+﻿.status {
+    min-width: 32vh;
+}
+
+h1 {
+    padding-top: 3vh;
+    font-size: 5vh;
+}
+
+.time {
+    font-size: 3vh;
+}
+
+.black {
+    color: #111;
+}
+
+.white {
+    color: #eee;
+}

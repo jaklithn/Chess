@@ -1,0 +1,30 @@
+﻿@switch (Piece.PieceType)
+{
+    case PieceType.King:
+        <i class="fas fa-chess-king @ColorClass"></i>
+        break;
+    case PieceType.Queen:
+        <i class="fas fa-chess-queen @ColorClass"></i>
+        break;
+    case PieceType.Rook:
+        <i class="fas fa-chess-rook @ColorClass"></i>
+        break;
+    case PieceType.Bishop:
+        <i class="fas fa-chess-bishop @ColorClass"></i>
+        break;
+    case PieceType.Knight:
+        <i class="fas fa-chess-knight @ColorClass"></i>
+        break;
+    case PieceType.Pawn:
+        <i class="fas fa-chess-pawn @ColorClass"></i>
+        break;
+}
+
+
+@code {
+    [Parameter]
+    public PieceItem Piece { get; set; }
+
+    private string ColorClass => Piece.Color == Color.Black ? "piece piece-black" : "piece piece-white";
+
+}
